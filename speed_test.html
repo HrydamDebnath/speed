@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Internet Speed Test</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="speed-test">
+
+    <div class="circle-container">
+      <div class="circle" id="ping">
+        00<br /><span>MS</span>
+      </div>
+      <div class="circle" id="download">
+        00<br /><span>MBPS</span>
+      </div>
+      <div class="circle" id="upload">
+        00<br /><span>MBPS</span>
+      </div>
+    </div>
+
+    <div class="speedometer">
+      <div class="needle"></div>
+      <div id="main-download">00</div>
+      <div class="unit">MBPS</div>
+    </div>
+
+    <div id="speed-values">
+      <span id="download-text">Download: 0 MBPS</span>
+      <span id="upload-text">Upload: 0 MBPS</span>
+    </div>
+
+    <button onclick="startTest()">START</button>
+  </div>
+
+  <script>
+    function updateNeedle(speed, maxSpeed) {
+      // Rotates from -90deg (left) to +90deg (right)
+      let angle = -90 + (speed / maxSpeed) * 180;
+      document.querySelector('.needle').style.transform = `rotate(${angle}deg)`;
+    }
+
+    function startTest() {
+      document.getElementById('ping').innerHTML = '...<br><span>MS</span>';
+      document.getElementById('download').innerHTML = '...<br><span>MBPS</span>';
+      document.getElementById('upload').innerHTML = '...<br><span>MBPS</span>';
+      document.getElementById('main-download').textContent = '...';
+      document.getElementById('download-text').textContent = `Download: ... MBPS`;
+      document.getElementById('upload-text').textContent = `Upload: ... MBPS`;
+
+      updateNeedle(0, 100); // Reset needle
+
+      setTimeout(() => {
+        let ping = Math.floor(Math.random() * 100);
+        let download = (Math.random() * 100).toFixed(2);
+        let upload = (Math.random() * 100).toFixed(2);
+
+        document.getElementById('ping').innerHTML = `${ping}<br><span>MS</span>`;
+        document.getElementById('download').innerHTML = `${download}<br><span>MBPS</span>`;
+        document.getElementById('upload').innerHTML = `${upload}<br><span>MBPS</span>`;
+        document.getElementById('main-download').textContent = download;
+        document.getElementById('download-text').textContent = `Download: ${download} MBPS`;
+        document.getElementById('upload-text').textContent = `Upload: ${upload} MBPS`;
+
+        updateNeedle(download, 100); // Animate needle
+      }, 1500);
+    }
+  </script>
+</body>
+</html>
